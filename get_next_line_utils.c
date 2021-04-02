@@ -6,44 +6,36 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/02 02:16:08 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:25:02 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_alloc(int n)
 {
-	char	*str;
+	char	*s;
+	char	*p;
 
-	str = s;
-	while (n--)
-		*str++ = 0;
-}
-
-void	*ft_calloc(size_t num, size_t size)
-{
-	void	*p;
-
-	p = malloc(num * size);
-	if (!p)
+	n = n + 1;
+	s = malloc(sizeof(*s) * n);
+	if (!s)
 		return (0);
-	ft_bzero(p, num * size);
-	return (p);
+	p = s;
+	while (n--)
+		*p++ = 0;
+	return (s);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	ft_memcpy(void *dest, const void *src, size_t n)
 {
 	char		*d;
 	const char	*s;
 
 	d = dest;
 	s = src;
-	if (!dest && !src)
-		return (0);
 	while (n--)
 		*d++ = *s++;
-	return (dest);
 }
 
 long	ft_strchr(const char *s, int c)

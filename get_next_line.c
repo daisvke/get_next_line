@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/02 02:26:03 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:36:45 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@
 int		get_next_line(int fd, char **line)
 {
 	int			r;
-	char		buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE + 1];
 	static char	*prev;
-	char		*tmp;
 	long		pos;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0)
 		return (-1);
-	*line = calloc(1, sizeof(*line));
-	tmp = ft_calloc(1, sizeof(tmp));
-	if (!tmp)
+	*line = ft_alloc(0);
+	if (!*line)
 		return (-1);
 	if (prev)
 	{
@@ -33,42 +31,32 @@ int		get_next_line(int fd, char **line)
 		{
 			*line = ft_strsdup(prev, pos);
 			prev = ft_substr(prev, pos + 1, ft_strlen(prev) - pos);
-			free(tmp);
 			return (1);
 		}
 		*line = ft_strdup(prev);
 		prev = 0;
 	}
-	ft_bzero(buf, sizeof(buf));
 	while ((r = read(fd, buf, BUFFER_SIZE)))
 	{
 		if (r < 0)
-		{
-			if (tmp)
-				free(tmp);
 			return (-1);
-		}
+		buf[r] = 0;
 		pos = ft_strchr(buf, '\n');
 		if (pos >= 0)
 		{
 			*line = ft_strjoin(*line, ft_strsdup(buf, pos));
-			free(tmp);
 			if (pos < BUFFER_SIZE - 1)
-			{
-				prev = 0;
 				prev = ft_strsdup(&buf[pos + 1], BUFFER_SIZE - (pos + 1));
-			}
 			return (1);
 		}
 		else
 			*line = ft_strjoin(*line, buf);
-		ft_bzero(buf, sizeof(buf));
 	}
 	return (0);
 }
 
-#include <stdio.h>
 /*
+#include <stdio.h>
 int		main(void)
 {
 
@@ -112,7 +100,7 @@ int	main()
 	char	*line;
 	int		ret;
 
-	fd = open("t", O_RDONLY);
+	fd = open("t3", O_RDONLY);
 	ret = get_next_line(fd, &line);
 	printf("1ret: %d\n", ret);
 	printf("1line: %s\n", line);
