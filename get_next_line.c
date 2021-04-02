@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/02 17:36:45 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/02 22:15:01 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int		get_next_line(int fd, char **line)
 	int			r;
 	static char	buf[BUFFER_SIZE + 1];
 	static char	*prev;
+	char		*tmp;
+	char		*tmp2;
 	long		pos;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0)
@@ -34,6 +36,7 @@ int		get_next_line(int fd, char **line)
 			return (1);
 		}
 		*line = ft_strdup(prev);
+		free(prev);
 		prev = 0;
 	}
 	while ((r = read(fd, buf, BUFFER_SIZE)))
@@ -43,14 +46,25 @@ int		get_next_line(int fd, char **line)
 		buf[r] = 0;
 		pos = ft_strchr(buf, '\n');
 		if (pos >= 0)
-		{
-			*line = ft_strjoin(*line, ft_strsdup(buf, pos));
-			if (pos < BUFFER_SIZE - 1)
+		{	
+			tmp = ft_strsdup(buf, pos);
+			tmp2 = *line;
+			*line = ft_strjoin(tmp2, tmp);
+			free(tmp2);
+			tmp2 = 0;
+			free(tmp);
+			tmp = 0;
+			if (pos < r - 1)
 				prev = ft_strsdup(&buf[pos + 1], BUFFER_SIZE - (pos + 1));
 			return (1);
 		}
 		else
-			*line = ft_strjoin(*line, buf);
+		{
+			tmp = *line;
+			*line = ft_strjoin(tmp, buf);
+			free(tmp);
+			tmp = 0;
+		}
 	}
 	return (0);
 }
@@ -103,7 +117,7 @@ int	main()
 	fd = open("t3", O_RDONLY);
 	ret = get_next_line(fd, &line);
 	printf("1ret: %d\n", ret);
-	printf("1line: %s\n", line);
+	printf("1line: |%s|\n", line);
 	ret = get_next_line(fd, &line);
 	printf("2ret: %d\n", ret);
 	printf("2line: %s\n", line);
@@ -137,21 +151,4 @@ int	main()
 	free(line);
 }
 
-
-if \n || EOF(= read = 0) in buf
-	return before symb
-else if read < 0
-	return -1
-
-else 
-	cpy buf in allocated (return -1 if fails) char *exbuf
-	read new bufsize
-	if \n || EOF
-		if \n only
-			return empty string
-		concat exbuf + buf into line
-		return 1 (\n) || 0 (EOF)
-
-	(bufsize can store max = one line (until EOF)
-	so if exbuf allocation len is buf len = ok)
 */
