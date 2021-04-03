@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/02 22:07:22 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/03 03:44:07 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	*ft_alloc(int n)
 	return (s);
 }
 
-void	ft_memcpy(void *dest, const void *src, size_t n)
+void	ft_memcpy(char *dest, char *src, size_t n)
 {
-	char		*d;
-	const char	*s;
+	char	*d;
+	char	*s;
 
 	d = dest;
 	s = src;
@@ -38,9 +38,9 @@ void	ft_memcpy(void *dest, const void *src, size_t n)
 		*d++ = *s++;
 }
 
-long	ft_strchr(const char *s, int c)
+int		ft_strchr(char *s, int c)
 {
-	long	i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -52,30 +52,11 @@ long	ft_strchr(const char *s, int c)
 	return (-1);
 }
 
-char	*ft_strdup(char *s)
-{
-	char	*cpy;
-	long	i;
-	long	len;
-
-	len = ft_strlen(s);
-	cpy = malloc(sizeof(*cpy) * (len + 1));
-	if (!cpy)
-		return (0);
-	i = 0;
-	while (i < len)
-	{
-		cpy[i] = s[i];
-		i++;
-	}
-	cpy[i] = 0;
-	return (cpy);
-}
-
 char	*ft_strjoin(char *s1, char *s2)
 {
-	long	len;
+	int		len;
 	char	*joined;
+
 
 	len = ft_strlen(s1) + ft_strlen(s2);
 	joined = malloc(sizeof(*joined) * (len + 1));
@@ -87,9 +68,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (joined);
 }
 
-long	ft_strlen(char *s)
+int		ft_strlen(char *s)
 {
-	long	i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -115,11 +96,11 @@ char	*ft_strsdup(char *src, int size)
 	return (dest);
 }
 
-char	*ft_substr(char *s, long start, long len)
+char	*ft_substr(char *s, int start, int len)
 {
 	char	*p;
-	long	i;
-	long	size;
+	int		i;
+	int		size;
 
 	if (!s || start >= ft_strlen(s))
 		return (0);
@@ -132,4 +113,3 @@ char	*ft_substr(char *s, long start, long len)
 		return (0);
 	return (p);
 }
-

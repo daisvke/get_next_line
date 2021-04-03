@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/02 22:15:01 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/03 03:57:16 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	if (prev)
 	{
-		if (prev && (pos = ft_strchr(prev, '\n')) >= 0)
+		if ((pos = ft_strchr(prev, '\n')) >= 0)
 		{
+			free(*line);
 			*line = ft_strsdup(prev, pos);
-			prev = ft_substr(prev, pos + 1, ft_strlen(prev) - pos);
+			tmp = ft_strsdup(prev, ft_strlen(prev));
+			free(prev);
+			prev = ft_substr(tmp, pos + 1, ft_strlen(tmp) - pos);
+			free(tmp);
+			tmp = 0;
 			return (1);
 		}
-		*line = ft_strdup(prev);
+		free(*line);
+		*line = ft_strsdup(prev, ft_strlen(prev));
 		free(prev);
 		prev = 0;
 	}
@@ -55,7 +61,7 @@ int		get_next_line(int fd, char **line)
 			free(tmp);
 			tmp = 0;
 			if (pos < r - 1)
-				prev = ft_strsdup(&buf[pos + 1], BUFFER_SIZE - (pos + 1));
+				prev = ft_strsdup(&buf[pos + 1], r - pos - 1);
 			return (1);
 		}
 		else
@@ -70,44 +76,6 @@ int		get_next_line(int fd, char **line)
 }
 
 /*
-#include <stdio.h>
-int		main(void)
-{
-
-	int             fd;
-	int             i;
-	int             j;
-	char    		*line = 0;
-	char			*lineadress[66];
-
-	j = 1;
-	if (!(fd = open("gnlTester/files/alternate_line_nl_no_nl", O_RDONLY)))
-	{
-		printf("\nError in open\n");
-		return (0);
-	}
-	while ((i = get_next_line(fd, &line)) > 0)
-	{
-		printf("|%s\n", line);
-		lineadress[j - 1] = line;
-		j++;
-	}
-	printf("|%s\n", line);
-	free(line);
-	close(fd);
-
-	if (i == -1)
-		printf ("\nError in Fonction - Returned -1\n");
-	else if (j == 66)
-		printf("\nRight number of lines\n");
-	else if (j != 66)
-		printf("\nNot Good - Wrong Number Of Lines\n");
-	while (--j > 0)
-		free(lineadress[j - 1]);
-	j = 1;
-}
-
-
 int	main()
 {
 	int		fd;
