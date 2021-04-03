@@ -6,26 +6,11 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/03 03:44:07 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/03 22:35:52 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_alloc(int n)
-{
-	char	*s;
-	char	*p;
-
-	n = n + 1;
-	s = malloc(sizeof(*s) * n);
-	if (!s)
-		return (0);
-	p = s;
-	while (n--)
-		*p++ = 0;
-	return (s);
-}
 
 void	ft_memcpy(char *dest, char *src, size_t n)
 {
