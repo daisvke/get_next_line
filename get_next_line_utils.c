@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/03 22:35:52 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/04 02:42:33 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ int		ft_strchr(char *s, int c)
 		i++;
 	}
 	return (-1);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		len;
-	char	*joined;
-
-
-	len = ft_strlen(s1) + ft_strlen(s2);
-	joined = malloc(sizeof(*joined) * (len + 1));
-	if (!joined)
-		return (0);
-	ft_memcpy(joined, s1, ft_strlen(s1));
-	ft_memcpy(&joined[ft_strlen(s1)], s2, ft_strlen(s2));
-	joined[len] = 0;
-	return (joined);
 }
 
 int		ft_strlen(char *s)
