@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/04 02:44:40 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/04 16:34:40 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-#include <fcntl.h>
 
 char	*ft_alloc(int n);
 void	ft_join(char **res, char **s1, char *s2);

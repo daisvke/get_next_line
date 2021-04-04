@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/04 03:16:42 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/04 16:34:25 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ void	ft_join(char **res, char **s1, char *s2)
 	free(tmp_s1);
 }
 
-int		ft_get_prev(char **prev, int *pos, char **line)
+int	ft_get_prev(char **prev, int *pos, char **line)
 {
 	char	*tmp;
 
-	if ((*pos = ft_strchr(*prev, '\n')) >= 0)
+	*pos = ft_strchr(*prev, '\n');
+	if (*pos >= 0)
 	{
 		free(*line);
 		*line = ft_strsdup(*prev, *pos);
@@ -68,7 +69,7 @@ int		ft_get_prev(char **prev, int *pos, char **line)
 	return (0);
 }
 
-int		ft_set_line(char **line, char **prev, char *buf, int r)
+int	ft_set_line(char **line, char **prev, char *buf, int r)
 {
 	char	*tmp;
 	int		pos;
@@ -76,7 +77,8 @@ int		ft_set_line(char **line, char **prev, char *buf, int r)
 	pos = ft_strchr(buf, '\n');
 	if (pos >= 0)
 	{
-		ft_join(line, line, tmp = ft_strsdup(buf, pos));
+		tmp = ft_strsdup(buf, pos);
+		ft_join(line, line, tmp);
 		free(tmp);
 		if (pos < r - 1)
 			*prev = ft_strsdup(&buf[pos + 1], r - pos - 1);
@@ -85,7 +87,7 @@ int		ft_set_line(char **line, char **prev, char *buf, int r)
 	return (0);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	buf[BUFFER_SIZE + 1];
 	static char	*prev;
@@ -98,14 +100,16 @@ int		get_next_line(int fd, char **line)
 	if (*line && prev)
 		if (ft_get_prev(&prev, &pos, line))
 			return (1);
-	while ((r = read(fd, buf, BUFFER_SIZE)))
+	while (1)
 	{
+		r = read(fd, buf, BUFFER_SIZE);
 		if (r < 0 || !*line)
 			return (-1);
+		if (!r)
+			return (0);
 		buf[r] = 0;
 		if (ft_set_line(line, &prev, buf, r))
 			return (1);
 		ft_join(line, line, buf);
 	}
-	return (0);
 }
