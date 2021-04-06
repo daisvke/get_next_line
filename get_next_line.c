@@ -6,13 +6,13 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/05 17:14:15 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/06 20:04:43 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_alloc(int n)
+char	*ft_alloc(size_t n)
 {
 	char	*s;
 	char	*p;
@@ -29,7 +29,7 @@ char	*ft_alloc(int n)
 
 void	ft_join(char **res, char **s1, char *s2)
 {
-	int		len;
+	size_t		len;
 	char	*tmp_s1;
 	char	*tmp_s2;
 	char	*joined;
@@ -94,10 +94,12 @@ int	get_next_line(int fd, char **line)
 	int			r;
 	int			pos;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0)
+	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || !line)
 		return (-1);
 	*line = ft_alloc(0);
-	if (*line && prev)
+	if (!*line)
+		return (-1);
+	if (prev)
 		if (ft_get_prev(&prev, &pos, line))
 			return (1);
 	while (1)
@@ -113,3 +115,37 @@ int	get_next_line(int fd, char **line)
 		ft_join(line, line, buf);
 	}
 }
+/*
+#include <stdio.h>
+#include <fcntl.h>
+int	main()
+{
+	int		fd;
+	char	*line;
+	int		ret;
+
+	fd = open("t5", O_RDONLY);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("1ret: %d\n", ret);
+	printf("1line: %s\n", line);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("2ret: %d\n", ret);
+	printf("2line: %s\n", line);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("3ret: %d\n", ret);
+	printf("3line: %s\n", line);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("4ret: %d\n", ret);
+	printf("4line: %s\n", line);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("5ret: %d\n", ret);
+	printf("5line: %s\n", line);
+	close(fd);
+	free(line);
+}
+*/

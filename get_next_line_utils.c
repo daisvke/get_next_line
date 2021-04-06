@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/04 03:29:20 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/06 20:05:26 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,27 @@
 
 void	ft_memcpy(char *dest, char *src, size_t n)
 {
-	char	*d;
-	char	*s;
-
-	d = dest;
-	s = src;
 	while (n--)
-		*d++ = *s++;
+		*dest++ = *src++;
 }
 
-int	ft_strchr(char *s, int c)
+int	ft_strchr(char *s, char c)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == (char)c)
+		if (s[i] == c)
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-int	ft_strlen(char *s)
+size_t	ft_strlen(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -47,9 +42,9 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strsdup(char *src, int size)
+char	*ft_strsdup(char *src, size_t size)
 {
-	int		i;
+	size_t	i;
 	char	*dest;
 
 	dest = malloc(sizeof(*dest) * (size + 1));
@@ -65,11 +60,11 @@ char	*ft_strsdup(char *src, int size)
 	return (dest);
 }
 
-char	*ft_substr(char *s, int start, int len)
+char	*ft_substr(char *s, size_t start, size_t len)
 {
 	char	*p;
-	int		i;
-	int		size;
+	size_t	i;
+	size_t	size;
 
 	if (!s || start >= ft_strlen(s))
 		return (0);
