@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 16:04:30 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:04:35 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,34 @@ char	*ft_alloc(size_t n)
 
 void	ft_join(char **res, char **s1, char *s2)
 {
-	size_t	len;
-	int		n;
+//	size_t	len;
 	char	*tmp_s1;
 	char	*tmp_s2;
-	char	*joined;
+	char	*str;
 
 	tmp_s1 = *s1;
 	tmp_s2 = s2;
-	len = ft_strlen(*s1) + ft_strlen(s2);
-	joined = malloc(sizeof(*joined) * (len + 1));
-	if (!joined)
-		return ;
-	n = ft_strlen(*s1);
-	while (n--)
-		*joined++ = *tmp_s1++;
-	n = ft_strlen(s2);
-	tmp_s1 = joined + ft_strlen(*s1);
-	while (n--)
-		*tmp_s1++ = *tmp_s2++;
-	joined[len] = 0;
-	*res = joined;
+	size_t	i;
+	size_t	j;
+
+	str = (char*)malloc(sizeof(*str) * (ft_strlen(*s1) + ft_strlen(s2) + 1));
+	i = 0;
+	j = 0;
+	while (tmp_s1[i])
+	{
+		str[j++] = tmp_s1[i];
+		i++;
+	}
+	i = 0;
+	while (tmp_s2[i])
+	{
+		str[j++] = tmp_s2[i];
+		i++;
+	}
+	str[j] = 0;
+	*res = str;
+	free(str);
+
 }
 
 int	ft_get_prev(char *buf, int *pos, char **line)
