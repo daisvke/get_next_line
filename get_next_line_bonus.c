@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 18:12:58 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:39:34 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,41 +33,34 @@ char	*ft_alloc(size_t n)
 	return (s);
 }
 
-void	ft_join(char **res, char **s1, char *s2)
+void    ft_join(char **res, char **s1, char *s2)
 {
-	size_t	len;
-	size_t	i;
-	size_t	j;
-	char	*tmp_s1;
-	char	*tmp_s2;
-	char	*joined;
+        size_t  i;
+        size_t  j;
+        char    *tmp_s1;
+        char    *tmp_s2;
+        char    *str;
 
-	tmp_s1 = *s1;
-	tmp_s2 = s2;
-	len = ft_strlen(*s1) + ft_strlen(s2);
-	joined = malloc(sizeof(*joined) * (len + 1));
-	if (!joined)
-		return ;
-	i = 0;
-	j = 0;
-	while (tmp_s1[i])
-	{
-		joined[j++] = tmp_s1[i];
-		i++;
-	}
-	i = 0;
-	while (tmp_s2[i])
-	{
-		joined[j++] = tmp_s2[i];
-		i++;
-	}
-	joined[j] = 0;
-	*res = joined;
-	free(tmp_s1);
+        tmp_s1 = *s1;
+        tmp_s2 = s2;
+        str = malloc(sizeof(*str) * (ft_strlen(*s1) + ft_strlen(s2) + 1));
+        if (!str)
+                return ;
+        i = 0;
+        j = 0;
+        while (tmp_s1[i])
+			str[j++] = tmp_s1[i++];
+        i = 0;
+        while (tmp_s2[i])
+			str[j++] = tmp_s2[i++];
+        str[j] = 0;
+        *res = str;
+        free(tmp_s1);
 }
 
 int	ft_get_prev(char *buf, int *pos, char **line)
 {
+	int		i;
 	char	*tmp;
 
 	*pos = ft_strchr(buf, '\n');
@@ -77,7 +70,10 @@ int	ft_get_prev(char *buf, int *pos, char **line)
 		*line = ft_strsdup(buf, *pos);
 		tmp = ft_substr(buf, *pos + 1, ft_strlen(buf) - *pos);
 		ft_bzero(buf, ft_strlen(buf));
-		ft_memcpy(buf, tmp, ft_strlen(tmp));
+		i = -1;
+		if (tmp)
+			while (tmp[++i])
+				buf[i] = tmp[i];
 		buf[ft_strlen(tmp)] = 0;
 		free(tmp);
 		return (1);
