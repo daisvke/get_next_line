@@ -6,13 +6,13 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:31 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 05:20:32 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 04:51:59 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_memcpy(char *dest, char *src, int n)
+void	ft_memcpy(char *dest, char *src, size_t n)
 {
 	while (n--)
 		*dest++ = *src++;

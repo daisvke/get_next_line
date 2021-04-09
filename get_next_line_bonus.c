@@ -5,15 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/06 20:13:15 by dtanigaw         ###   ########.fr       */
+/*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
+/*   Updated: 2021/04/09 16:04:30 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <stdio.h>
-#include <fcntl.h>
-
 void	ft_bzero(char *s, size_t n)
 {
 	while (n--)
@@ -38,6 +36,7 @@ char	*ft_alloc(size_t n)
 void	ft_join(char **res, char **s1, char *s2)
 {
 	size_t	len;
+	int		n;
 	char	*tmp_s1;
 	char	*tmp_s2;
 	char	*joined;
@@ -48,11 +47,15 @@ void	ft_join(char **res, char **s1, char *s2)
 	joined = malloc(sizeof(*joined) * (len + 1));
 	if (!joined)
 		return ;
-	ft_memcpy(joined, tmp_s1, ft_strlen(*s1));
-	ft_memcpy(&joined[ft_strlen(*s1)], tmp_s2, ft_strlen(s2));
+	n = ft_strlen(*s1);
+	while (n--)
+		*joined++ = *tmp_s1++;
+	n = ft_strlen(s2);
+	tmp_s1 = joined + ft_strlen(*s1);
+	while (n--)
+		*tmp_s1++ = *tmp_s2++;
 	joined[len] = 0;
 	*res = joined;
-	free(tmp_s1);
 }
 
 int	ft_get_prev(char *buf, int *pos, char **line)
@@ -105,61 +108,32 @@ int	ft_set_line(char **line, char *buf, int r)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	*buf[1024];
 	int			r;
 	int			pos;
 
-	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || !line)
+	if (BUFFER_SIZE <= 0 || read(fd, buf[fd], 0) < 0 || !line)
 		return (-1);
+	if (!buf[fd])
+	{
+		buf[fd] = malloc(sizeof(*buf) * (BUFFER_SIZE + 1));
+		ft_bzero(buf[fd], BUFFER_SIZE);
+	}
 	*line = ft_alloc(0);
-	if (!*line)
-		return (-1);
-	if (*buf)
-		if (ft_get_prev(buf, &pos, line))
+	if (*buf[fd])
+		if (ft_get_prev(buf[fd], &pos, line))
 			return (1);
 	while (1)
 	{
-		ft_bzero(buf, ft_strlen(buf));
-		r = read(fd, buf, BUFFER_SIZE);
+		ft_bzero(buf[fd], ft_strlen(buf[fd]));
+		r = read(fd, buf[fd], BUFFER_SIZE);
 		if (r < 0 || !*line)
-			return (-1);
+			return (ERROR);
 		if (!r)
-			return (0);
-		buf[r] = 0;
-		if (ft_set_line(line, buf, r))
-			return (1);
-		ft_join(line, line, buf);
+			return (REACHED_EOF);
+		buf[fd][r] = 0;
+		if (ft_set_line(line, buf[fd], r))
+			return (READ_LINE);
+		ft_join(line, line, buf[fd]);
 	}
 }
-
-/*
-int	main()
-{
-	int		fd;
-	char	*line;
-	int		ret;
-
-	fd = open("t6", O_RDONLY);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("1ret: %d\n", ret);
-	printf("1line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("2ret: %d\n", ret);
-	printf("2line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("3ret: %d\n", ret);
-	printf("3line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("4ret: %d\n", ret);
-	printf("4line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("5ret: %d\n", ret);
-	printf("5line: %s\n", line);
-	close(fd);
-	free(line);
-}*/
