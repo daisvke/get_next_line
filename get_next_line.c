@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 16:26:29 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 21:34:36 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,37 +115,3 @@ int	get_next_line(int fd, char **line)
 		ft_join(line, line, buf);
 	}
 }
-/*
-#include <stdio.h>
-#include <fcntl.h>
-int	main()
-{
-	int		fd;
-	char	*line;
-	int		ret;
-
-	fd = open("t5", O_RDONLY);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("1ret: %d\n", ret);
-	printf("1line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("2ret: %d\n", ret);
-	printf("2line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("3ret: %d\n", ret);
-	printf("3line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("4ret: %d\n", ret);
-	printf("4line: %s\n", line);
-	printf("----------------------------\n\n");
-	ret = get_next_line(fd, &line);
-	printf("5ret: %d\n", ret);
-	printf("5line: %s\n", line);
-	close(fd);
-	free(line);
-}
-*/

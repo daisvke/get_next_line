@@ -6,16 +6,16 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:31 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 04:51:59 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 21:30:56 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-void	ft_memcpy(char *dest, char *src, size_t n)
+void	ft_bzero(char *s, size_t n)
 {
 	while (n--)
-		*dest++ = *src++;
+		*s++ = 0;
 }
 
 int	ft_strchr(char *s, char c)

@@ -6,12 +6,12 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 05:38:35 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 21:29:51 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 2
@@ -24,9 +24,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*ft_alloc(size_t n);
-void	ft_join(char **res, char **s1, char *s2);
-void	ft_memcpy(char *dest, char *src, size_t n);
+void	ft_bzero(char *s, size_t n);
 int		ft_strchr(char *s, char c);
 size_t	ft_strlen(char *s);
 char	*ft_strsdup(char *src, size_t size);
