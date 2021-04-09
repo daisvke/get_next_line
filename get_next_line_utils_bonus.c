@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/06 20:13:15 by dtanigaw         ###   ########.fr       */
+/*   Created: 2021/04/09 04:07:31 by dtanigaw          #+#    #+#             */
+/*   Updated: 2021/04/09 05:20:32 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 void	ft_memcpy(char *dest, char *src, int n)
 {
