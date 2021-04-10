@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 21:50:11 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/10 01:34:12 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_set_line(char **line, char *buf, int r)
 		tmp = ft_strsdup(buf, i);
 		ft_join(line, line, tmp);
 		free(tmp);
-		if (i < r - 1)
+		if (BUFFER_SIZE > 1 && i < r - 1)
 		{
 			tmp = ft_strsdup(&buf[i + 1], r - i - 1);
 			ft_bzero(buf, ft_strlen(buf));
@@ -123,7 +123,6 @@ int	get_next_line(int fd, char **line)
 	{
 		if (read(fd, buf[fd], 0) < 0 || !*line)
 			return (ERROR);
-		buf[fd][ft_strlen(buf[fd])] = 0;
 		if (ft_set_line(line, buf[fd], ft_strlen(buf[fd])))
 			return (READ_LINE);
 		ft_join(line, line, buf[fd]);

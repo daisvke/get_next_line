@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 21:34:36 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/09 23:43:51 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,21 +97,19 @@ int	get_next_line(int fd, char **line)
 	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || !line)
 		return (-1);
 	*line = ft_alloc(0);
-	if (!*line)
-		return (-1);
 	if (prev)
 		if (ft_get_prev(&prev, &pos, line))
 			return (1);
-	while (1)
+    while (1)
 	{
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r < 0 || !*line)
-			return (ERROR);
+				return (ERROR);
 		if (!r)
-			return (REACHED_EOF);
+				return (REACHED_EOF);
 		buf[r] = 0;
 		if (ft_set_line(line, &prev, buf, r))
-			return (READ_LINE);
+				return (READ_LINE);
 		ft_join(line, line, buf);
 	}
 }
