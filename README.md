@@ -8,6 +8,8 @@ This work has been validated by the following tests:
 * [42cursus_gnl_tests](https://github.com/mrjvs/42cursus_gnl_tests)
 * [Test-42 test_gnl](https://github.com/PandaCoustik/Test-42/tree/master/test_gnl)
 * [gnlTester](https://github.com/Tripouille/gnlTester)
+    (This test may falsely return "TIMEOUT" when testing with BUFFER_SIZE=1 with big_line_no_nl and big_line_with_nl<br />
+    if it is done on a Linux system.)
 * [norminette v.3](https://github.com/alexandregv/norminette-action)
 
 <p align="center">
