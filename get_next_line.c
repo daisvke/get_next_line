@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/09 23:43:51 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/10 16:15:20 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_alloc(size_t n)
 	char	*s;
 	char	*p;
 
-	n = n + 1;
+	++n;
 	s = malloc(sizeof(*s) * n);
 	if (!s)
 		return (0);
@@ -27,9 +27,9 @@ char	*ft_alloc(size_t n)
 	return (s);
 }
 
-void	ft_join(char **res, char **s1, char *s2)
+void	ft_join(char **line, char **s1, char *s2)
 {
-	size_t		len;
+	size_t	len;
 	char	*tmp_s1;
 	char	*tmp_s2;
 	char	*joined;
@@ -37,13 +37,13 @@ void	ft_join(char **res, char **s1, char *s2)
 	tmp_s1 = *s1;
 	tmp_s2 = s2;
 	len = ft_strlen(*s1) + ft_strlen(s2);
-	joined = malloc(sizeof(*joined) * (len + 1));
+	joined = malloc(sizeof(char) * (len + 1));
 	if (!joined)
 		return ;
 	ft_memcpy(joined, tmp_s1, ft_strlen(*s1));
 	ft_memcpy(&joined[ft_strlen(*s1)], tmp_s2, ft_strlen(s2));
 	joined[len] = 0;
-	*res = joined;
+	*line = joined;
 	free(tmp_s1);
 }
 
@@ -100,16 +100,16 @@ int	get_next_line(int fd, char **line)
 	if (prev)
 		if (ft_get_prev(&prev, &pos, line))
 			return (1);
-    while (1)
+	while (1)
 	{
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r < 0 || !*line)
-				return (ERROR);
+			return (ERROR);
 		if (!r)
-				return (REACHED_EOF);
+			return (REACHED_EOF);
 		buf[r] = 0;
 		if (ft_set_line(line, &prev, buf, r))
-				return (READ_LINE);
+			return (READ_LINE);
 		ft_join(line, line, buf);
 	}
 }

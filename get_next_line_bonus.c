@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/10 01:34:12 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/04/10 16:16:45 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_alloc(size_t n)
 	char	*s;
 	char	*p;
 
-	n = n + 1;
+	++n;
 	s = malloc(sizeof(*s) * n);
 	if (!s)
 		return (0);
@@ -27,13 +27,13 @@ char	*ft_alloc(size_t n)
 	return (s);
 }
 
-void    ft_join(char **res, char **s1, char *s2)
+void	ft_join(char **line, char **s1, char *s2)
 {
-	size_t  i;
-	size_t  j;
-	char    *tmp_s1;
-	char    *tmp_s2;
-	char    *str;
+	size_t	i;
+	size_t	j;
+	char	*tmp_s1;
+	char	*tmp_s2;
+	char	*str;
 
 	tmp_s1 = *s1;
 	tmp_s2 = s2;
@@ -48,7 +48,7 @@ void    ft_join(char **res, char **s1, char *s2)
 	while (tmp_s2[i])
 		str[j++] = tmp_s2[i++];
 	str[j] = 0;
-	*res = str;
+	*line = str;
 	free(tmp_s1);
 }
 
@@ -89,7 +89,7 @@ int	ft_set_line(char **line, char *buf, int r)
 		tmp = ft_strsdup(buf, i);
 		ft_join(line, line, tmp);
 		free(tmp);
-		if (BUFFER_SIZE > 1 && i < r - 1)
+		if (i < r - 1)
 		{
 			tmp = ft_strsdup(&buf[i + 1], r - i - 1);
 			ft_bzero(buf, ft_strlen(buf));
