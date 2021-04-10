@@ -8,6 +8,7 @@ This work has been validated by the following tests:
 * [42cursus_gnl_tests](https://github.com/mrjvs/42cursus_gnl_tests)
 * [Test-42 test_gnl](https://github.com/PandaCoustik/Test-42/tree/master/test_gnl)
 * [gnlTester](https://github.com/Tripouille/gnlTester)
+* [norminette v.3](https://github.com/alexandregv/norminette-action)
 
 <p align="center">
   <img src="/screenshots/all.png" width="100%" />
