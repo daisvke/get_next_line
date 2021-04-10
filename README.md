@@ -3,6 +3,16 @@
 
 get_next_line is a function allowing to read a line ending with a newline character ('\n') from a file descriptor (fd).<br />
 This was originally a 42 school project.<br />
+<br />
+This work has been validated by the following tests:
+* [42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
+* [42cursus_gnl_tests](https://github.com/mrjvs/42cursus_gnl_tests)
+* [Test-42 test_gnl](https://github.com/PandaCoustik/Test-42/tree/master/test_gnl)
+* [gnlTester](https://github.com/Tripouille/gnlTester)
+
+<p align="center">
+  <img src="/screenshots/all.png" width="48%" />
+</p>
 
 ### Mandatory part
 
