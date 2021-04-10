@@ -11,7 +11,7 @@ This work has been validated by the following tests:
 * [gnlTester](https://github.com/Tripouille/gnlTester)
 
 <p align="center">
-  <img src="/screenshots/all.png" width="48%" />
+  <img src="/screenshots/all.png" width="100%" />
 </p>
 
 ### Mandatory part
@@ -32,4 +32,4 @@ This work has been validated by the following tests:
 
 ### Bonus part
 
-• The function is able to manage multiple file descriptors. For instance, if the file descriptors 3, 4 and 5 are accessible for reading, then we can call get_next_line once on 3, once on 4, once again on 3 then once on 5 etc., without losing the reading thread on each of the descriptors.
+* The function is able to manage multiple file descriptors. For instance, if the file descriptors 3, 4 and 5 are accessible for reading, then we can call get_next_line once on 3, once on 4, once again on 3 then once on 5 etc., without losing the reading thread on each of the descriptors.
