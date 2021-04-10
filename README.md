@@ -20,7 +20,7 @@ This work has been validated by the following tests:
 
 * The function returns a line read from a file descriptor.
 * What we call a “line” is a succession of characters that ends with '\n' (ascii code 0x0a) or with End Of File (EOF).
-* The function is prototyped as follows : 
+* The function is declared as follows : 
   ```
   int  get_next_line(int fd, char** line);
   ```
