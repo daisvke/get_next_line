@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 05:34:14 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 05:41:47 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos);
 		free(tmp);
 		if (!prev)
-			*pos = ERROR2;;
+			*pos = ERROR2;
 		return (1);
 	}
 	free(*line);
@@ -90,11 +90,7 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 		tmp = ft_strsdup(buf, pos);
 		ft_join(line, line, tmp);
 		if (!tmp || !*line)
-		{
-			if (!*line)
-				free(tmp);
 			*line = NULL;;
-		}
 		free(tmp);
 		if (*line && pos < r - 1)
 		{
