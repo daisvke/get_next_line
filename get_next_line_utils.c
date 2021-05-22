@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 04:43:49 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 05:36:14 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_bzero(char *s, size_t n)
 	if (!s)
 		return (0);
 	while (*s && n--)
-		*s++ = 0;
+		*s++ = '\0';
 	return (1);
 }
 
@@ -51,9 +51,9 @@ char	*ft_strsdup(char *src, size_t size)
 	size_t	i;
 	char	*dest;
 
-	dest = malloc(sizeof(*dest) * (size + 1));
+	dest = (char *)malloc(sizeof(*dest) * (size + 1));
 	if (!dest)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{
@@ -71,13 +71,13 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	size_t	size;
 
 	if (!s || start >= ft_strlen(s))
-		return (0);
+		return (NULL);
 	size = 0;
 	i = start;
 	while (s[i++] && len--)
 		size++;
 	p = ft_strsdup((char *)&s[start], size);
 	if (!p)
-		return (0);
+		return (NULL);
 	return (p);
 }

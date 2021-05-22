@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 04:44:26 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 05:32:46 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # endif
 
 # define ERROR -1
+# define ERROR2 -2
 # define REACHED_EOF 0
 # define LINE_READ 1
 

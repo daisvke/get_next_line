@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 04:45:24 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 05:34:14 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 		*line = ft_strsdup(*prev, *pos);
 		tmp = ft_strsdup(*prev, ft_strlen(*prev));
 		if (!*line || !tmp)
-			pos = NULL;
+			*pos = ERROR2;
 		free(*prev);
 		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos);
 		free(tmp);
 		if (!prev)
-			pos = NULL;;
+			*pos = ERROR2;;
 		return (1);
 	}
 	free(*line);
@@ -75,7 +75,7 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 	if (!*line)
 		return (ERROR);
 	free(*prev);
-	*prev = 0;
+	*prev = NULL;
 	return (0);
 }
 
@@ -96,7 +96,7 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 			*line = NULL;;
 		}
 		free(tmp);
-		if (pos < r - 1)
+		if (*line && pos < r - 1)
 		{
 			*prev = ft_strsdup(&buf[pos + 1], r - pos - 1);
 			if (!*prev)
@@ -116,16 +116,16 @@ int	get_next_line(int fd, char **line)
 	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || !line || ft_alloc(line) < 0)
 		return (ERROR);
 	pos = 1;
-	if (prev && ft_get_prev(&prev, &pos, line))
+	if (prev && ft_get_prev(&prev, &pos, line) && pos >= -1)
 		return (LINE_READ);
-	if (!pos)
+	if (pos == ERROR2)
 		return (ERROR);
 	while (ft_bzero(buf, BUFFER_SIZE) && read(fd, buf, BUFFER_SIZE) != 0)
 	{
 		if (!*line || read(fd, buf, 0) < 0)
 			return (ERROR);
-		buf[ft_strlen(buf)] = 0;
-		if (ft_set_line(line, &prev, buf, ft_strlen(buf)))
+		buf[ft_strlen(buf)] = '\0';
+		if (ft_set_line(line, &prev, buf, ft_strlen(buf)) && *line)
 			return (LINE_READ);
 		if (!*line)
 			return (ERROR);
