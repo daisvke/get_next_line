@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/10 16:16:45 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/21 03:24:38 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*ft_alloc(size_t n)
 	char	*p;
 
 	++n;
-	s = malloc(sizeof(*s) * n);
+	s = (char *)malloc(sizeof(*s) * n);
 	if (!s)
-		return (0);
+		return (NULL);
 	p = s;
 	while (n--)
-		*p++ = 0;
+		*p++ = '\0';
 	return (s);
 }
 
@@ -47,7 +47,7 @@ void	ft_join(char **line, char **s1, char *s2)
 	i = 0;
 	while (tmp_s2[i])
 		str[j++] = tmp_s2[i++];
-	str[j] = 0;
+	str[j] = '\0';
 	*line = str;
 	free(tmp_s1);
 }
