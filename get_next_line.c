@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 02:21:47 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 02:45:58 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,12 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 		free(*line);
 		*line = ft_strsdup(*prev, *pos);
 		tmp = ft_strsdup(*prev, ft_strlen(*prev));
+		if (!*line || !tmp)
+			return (ERROR);
 		free(*prev);
-		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos);
+		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos); // return null
+		if (!prev)
+			return (ERROR);
 		free(tmp);
 		return (1);
 	}
