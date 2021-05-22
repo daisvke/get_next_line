@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 02:45:58 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 04:45:24 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_alloc(char **line)
 	return (0);
 }
 
-int	ft_join(char **line, char **s1, char *s2)
+void	ft_join(char **line, char **s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -38,7 +38,7 @@ int	ft_join(char **line, char **s1, char *s2)
 	tmp_s2 = s2;
 	str = (char *)malloc(sizeof(*str) * (ft_strlen(*s1) + ft_strlen(s2) + 1));
 	if (!str)
-		return (ERROR);
+		*line = NULL;
 	i = 0;
 	j = 0;
 	while (tmp_s1[i])
@@ -49,7 +49,6 @@ int	ft_join(char **line, char **s1, char *s2)
 	str[j] = '\0';
 	*line = str;
 	free(tmp_s1);
-	return (0);
 }
 
 int	ft_get_prev(char **prev, int *pos, char **line)
@@ -63,12 +62,12 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 		*line = ft_strsdup(*prev, *pos);
 		tmp = ft_strsdup(*prev, ft_strlen(*prev));
 		if (!*line || !tmp)
-			return (ERROR);
+			pos = NULL;
 		free(*prev);
-		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos); // return null
-		if (!prev)
-			return (ERROR);
+		*prev = ft_substr(tmp, *pos + 1, ft_strlen(tmp) - *pos);
 		free(tmp);
+		if (!prev)
+			pos = NULL;;
 		return (1);
 	}
 	free(*line);
@@ -85,19 +84,23 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 	char	*tmp;
 	int		pos;
 
-	buf[r] = 0;
 	pos = ft_strchr(buf, '\n');
 	if (pos >= 0)
 	{
 		tmp = ft_strsdup(buf, pos);
-		if (!tmp || ft_join(line, line, tmp) == ERROR)
-			return (ERROR);
+		ft_join(line, line, tmp);
+		if (!tmp || !*line)
+		{
+			if (!*line)
+				free(tmp);
+			*line = NULL;;
+		}
 		free(tmp);
 		if (pos < r - 1)
 		{
 			*prev = ft_strsdup(&buf[pos + 1], r - pos - 1);
 			if (!*prev)
-				return (ERROR);
+				*line = NULL;;
 		}
 		return (1);
 	}
@@ -107,27 +110,27 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 int	get_next_line(int fd, char **line)
 {
 	static char	buf[BUFFER_SIZE + 1];
-	static char	*prev;
-	int			r;
+	static char	*prev = NULL;
 	int			pos;
 
 	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0 || !line || ft_alloc(line) < 0)
 		return (ERROR);
-	if (prev)
-		if (ft_get_prev(&prev, &pos, line))
-			return (READ_LINE);
-	while (1)
+	pos = 1;
+	if (prev && ft_get_prev(&prev, &pos, line))
+		return (LINE_READ);
+	if (!pos)
+		return (ERROR);
+	while (ft_bzero(buf, BUFFER_SIZE) && read(fd, buf, BUFFER_SIZE) != 0)
 	{
-		r = read(fd, buf, BUFFER_SIZE);
-		if (r < 0 || !*line)
+		if (!*line || read(fd, buf, 0) < 0)
 			return (ERROR);
-		if (!r)
-			return (REACHED_EOF);
-		r = ft_set_line(line, &prev, buf, r);
-		if (r == ERROR)
+		buf[ft_strlen(buf)] = 0;
+		if (ft_set_line(line, &prev, buf, ft_strlen(buf)))
+			return (LINE_READ);
+		if (!*line)
 			return (ERROR);
-		if (r)
-			return (READ_LINE);
 		ft_join(line, line, buf);
+		ft_bzero(buf, BUFFER_SIZE);
 	}
+	return (REACHED_EOF);
 }

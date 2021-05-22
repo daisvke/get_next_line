@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 02:38:42 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 04:44:26 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 
 # define ERROR -1
 # define REACHED_EOF 0
-# define READ_LINE 1
+# define LINE_READ 1
 
 # include <stdlib.h>
 # include <unistd.h>
 
-void	ft_memcpy(char *dest, char *src, size_t n);
+int		ft_bzero(char *s, size_t n);
 int		ft_strchr(char *s, char c);
 size_t	ft_strlen(char *s);
 char	*ft_strsdup(char *src, size_t size);

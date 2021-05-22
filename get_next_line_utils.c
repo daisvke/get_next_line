@@ -6,11 +6,20 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 02:24:19 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/22 04:43:49 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_bzero(char *s, size_t n)
+{
+	if (!s)
+		return (0);
+	while (*s && n--)
+		*s++ = 0;
+	return (1);
+}
 
 int	ft_strchr(char *s, char c)
 {
