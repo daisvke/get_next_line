@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:31 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/04/15 15:40:53 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/23 06:27:16 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_bzero(char *s, size_t n)
 {
 	while (*s && n--)
-		*s++ = 0;
+		*s++ = '\0';
 }
 
 int	ft_strchr(char *s, char c)
@@ -29,7 +29,7 @@ int	ft_strchr(char *s, char c)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (ERROR);
 }
 
 size_t	ft_strlen(char *s)
@@ -43,14 +43,17 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strsdup(char *src, size_t size)
+char	*ft_strsdup(char *src, size_t size, int **err, int location)
 {
 	size_t	i;
 	char	*dest;
 
 	dest = malloc(sizeof(*dest) * (size + 1));
 	if (!dest)
-		return (0);
+	{
+		**err = location;
+		return (NULL);
+	}
 	i = 0;
 	while (i < size)
 	{
@@ -67,14 +70,12 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	size_t	i;
 	size_t	size;
 
-	if (!s || start >= ft_strlen(s))
-		return (0);
 	size = 0;
 	i = start;
 	while (s[i++] && len--)
 		size++;
-	p = ft_strsdup((char *)&s[start], size);
+	p = ft_strsdup((char *)&s[start], size, NULL, 0);
 	if (!p)
-		return (0);
+		return (NULL);
 	return (p);
 }

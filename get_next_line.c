@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 05:44:25 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/23 06:36:24 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_get_prev(char **prev, int *pos, char **line)
 	free(*line);
 	*line = ft_strsdup(*prev, ft_strlen(*prev));
 	if (!*line)
-		return (ERROR);
+		return (ERROR2);
 	free(*prev);
 	*prev = NULL;
 	return (0);
@@ -105,7 +105,7 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE + 1] = {0};
 	static char	*prev = NULL;
 	int			pos;
 

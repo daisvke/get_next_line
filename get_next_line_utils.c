@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:20 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/22 05:36:14 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/23 06:10:40 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	size_t	i;
 	size_t	size;
 
-	if (!s || start >= ft_strlen(s))
-		return (NULL);
 	size = 0;
 	i = start;
 	while (s[i++] && len--)
