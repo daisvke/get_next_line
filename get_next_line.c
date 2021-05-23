@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 15:30:09 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/23 16:33:31 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/23 17:09:31 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,9 @@ int	ft_set_line(char **line, char **prev, char *buf, int r)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	buf[BUFFER_SIZE + 1] = {0};
-	static char	*prev = NULL;
+	static char	buf[BUFFER_SIZE + 1];
+	static char	*prev²²:w
+	;
 	int			pos;
 
 	if (read(fd, buf, 0) < 0 || !line || BUFFER_SIZE <= 0 || ft_alloc(line) < 0)
