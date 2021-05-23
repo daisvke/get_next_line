@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/23 06:53:05 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/05/23 16:33:29 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	get_next_line(int fd, char **line)
 	int			pos;
 
 	pos = 1;
-	if (BUFFER_SIZE <= 0 || read(fd, buf[fd], 0) < 0 || !line \
+	if (fd < 0 || read(fd, buf[fd], 0) < 0 || BUFFER_SIZE <= 0 || !line \
 		|| (!buf[fd] && ft_alloc(&buf[fd], BUFFER_SIZE) < 0) \
 		|| ft_alloc(&*line, 0) < 0)
 		return (ERROR);
