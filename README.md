@@ -3,16 +3,6 @@
 get_next_line is a function allowing to read a line ending with a newline character ('\n') from a file descriptor (fd).<br />
 This was originally a 42 school project.<br />
 <br />
-This work has been validated by the following tests:
-* [42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
-* [42cursus_gnl_tests](https://github.com/mrjvs/42cursus_gnl_tests)
-* [Test-42 test_gnl](https://github.com/PandaCoustik/Test-42/tree/master/test_gnl)
-* [gnlTester](https://github.com/Tripouille/gnlTester) (This test may falsely return "TIMEOUT" when testing with BUFFER_SIZE=1 with big_line_no_nl and big_line_with_nl if it is done on a Linux system.)
-* [norminette v.3](https://github.com/alexandregv/norminette-action)
-
-<p align="center">
-  <img src="/screenshots/all.png" width="100%" />
-</p>
 
 ## Mandatory part
 
@@ -43,3 +33,16 @@ This work has been validated by the following tests:
 
 * Although it passes all the gnl testers from Github, this part got a K.O. from the "moulinette".
 * The function is able to manage multiple file descriptors. For instance, if the file descriptors 3, 4 and 5 are accessible for reading, then we can call get_next_line once on 3, once on 4, once again on 3 then once on 5 etc., without losing the reading thread on each of the descriptors.
+<br /> <br />
+
+This work has been validated by the following tests:
+* [42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
+* [42cursus_gnl_tests](https://github.com/mrjvs/42cursus_gnl_tests)
+* [Test-42 test_gnl](https://github.com/PandaCoustik/Test-42/tree/master/test_gnl)
+* [gnlTester](https://github.com/Tripouille/gnlTester) (This test may falsely return "TIMEOUT" when testing with BUFFER_SIZE=1 with big_line_no_nl and big_line_with_nl if it is done on a Linux system.)
+* [norminette v.3](https://github.com/alexandregv/norminette-action)
+
+<p align="center">
+  <img src="/screenshots/all.png" width="100%" />
+</p>
+
