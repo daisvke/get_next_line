@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
+/*
 int	ft_alloc(char **fd_buf, size_t n)
 {
 	char	*s;
@@ -27,7 +27,7 @@ int	ft_alloc(char **fd_buf, size_t n)
 	*fd_buf = s;
 	return (0);
 }
-
+*/
 void	ft_join(char **line, char **s1, char *s2)
 {
 	size_t	i;
@@ -109,28 +109,18 @@ int	ft_set_line(char **line, char *buf, int r, int *err)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	*buf[1024];
-	int			pos;
+	static char	buffer[1024][BUFFER_SIZE];
 
-	pos = 1;
-	if (fd < 0 || read(fd, buf[fd], 0) < 0 || BUFFER_SIZE <= 0 || !line \
-		|| (!buf[fd] && ft_alloc(&buf[fd], BUFFER_SIZE) < 0) \
-		|| ft_alloc(&*line, 0) < 0)
+	if (fd < 0 || read(fd, buffer[fd], 0) < 0 || BUFFER_SIZE <= 0 || !line)
 		return (ERROR);
-	if (*buf[fd] && ft_get_prev(buf[fd], &pos, line) && pos >= -1)
-		return (LINE_READ);
-	if (pos == ERROR2)
-		return (ERROR);
-	while (read(fd, buf[fd], BUFFER_SIZE))
+	while (read(fd, buffer[fd], BUFFER_SIZE))
 	{
-		if (!*line || read(fd, buf[fd], 0) < 0)
+		if (read(fd, buffer[fd], 0) < 0)
 			return (ERROR);
-		if (ft_set_line(line, buf[fd], ft_strlen(buf[fd]), &pos))
-			return (LINE_READ);
-		if (pos == ERROR2)
-			return (ERROR);
-		ft_join(line, line, buf[fd]);
-		ft_bzero(buf[fd], ft_strlen(buf[fd]));
+        if (buffer[fd][ft_strlen(buffer[fd])] == '\n')
+            return (LINE_READ);
+		ft_join(line, line, buffer[fd]);
+		ft_bzero(buffer[fd], ft_strlen(buffer[fd]));
 	}
 	return (REACHED_EOF);
 }
