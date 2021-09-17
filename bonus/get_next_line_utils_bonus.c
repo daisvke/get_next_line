@@ -64,6 +64,27 @@ char	*ft_strsdup(char *src, size_t size, int **err, int location)
 	return (dest);
 }
 
+char	*ft_strdup(t_data *data, char *src)
+{
+	size_t	i;
+	char	*dest;
+
+	dest = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!dest)
+	{
+        data->error = true;
+		return (NULL);
+	}
+	i = 0;
+	while (i < BUFFER_SIZE)
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 char	*ft_substr(char *s, size_t start, size_t len)
 {
 	char	*p;
@@ -75,6 +96,7 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	while (s[i++] && len--)
 		size++;
 	p = ft_strsdup((char *)&s[start], size, NULL, 0);
+    p[start + size] = '\0';
 	if (!p)
 		return (NULL);
 	return (p);

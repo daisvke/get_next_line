@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <fcntl.h>
-//#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 int	main()
 {
@@ -57,6 +57,12 @@ int	main()
 	ret = get_next_line(fd7, &line);
 	printf("t7_1ret: %d\n", ret);
 	printf("t7_1line: %s\n", line);
+	printf("----------------------------\n\n");
+	free(line);
+	printf("----------------------------\n\n");
+	ret = get_next_line(fd, &line);
+	printf("t_2ret: %d\n", ret);
+	printf("t_2line: %s\n", line);
 	printf("----------------------------\n\n");
 	free(line);
 	ret = get_next_line(fd7, &line);

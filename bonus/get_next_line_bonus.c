@@ -28,31 +28,29 @@ int	ft_alloc(char **fd_buf, size_t n)
 	return (0);
 }
 */
-void	ft_join(char **line, char **s1, char *s2)
+char	*ft_join(t_data *data, char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
-	char	*tmp_s1;
-	char	*tmp_s2;
 	char	*str;
 
-	tmp_s1 = *s1;
-	tmp_s2 = s2;
-	str = malloc(sizeof(*str) * (ft_strlen(*s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
-		*line = NULL;
+    {
+        data->error = true;
+		return (NULL);
+    }
 	i = 0;
 	j = 0;
-	while (tmp_s1[i])
-		str[j++] = tmp_s1[i++];
+	while (s1[i])
+		str[j++] = s1[i++];
 	i = 0;
-	while (tmp_s2[i])
-		str[j++] = tmp_s2[i++];
+	while (s2[i])
+		str[j++] = s2[i++];
 	str[j] = '\0';
-	*line = str;
-	free(tmp_s1);
+    return (str);
 }
-
+/*
 int	ft_get_prev(char *buf, int *pos, char **line)
 {
 	int		i;
@@ -106,21 +104,99 @@ int	ft_set_line(char **line, char *buf, int r, int *err)
 	}
 	return (0);
 }
+*/
+
+int gnl_set_line(t_data *data, char *buffer, char **line)
+{
+    int  pos;
+    
+    pos = 0;
+    while (buffer[pos] && buffer[pos] != '\n')
+        pos++;
+   
+    if (buffer[pos] == '\0')
+    {
+       *line = ft_strdup(data, buffer);
+     //  ft_bzero(buffer, BUFFER_SIZE);
+        free(buffer);
+    }
+    else
+    {
+        *line = ft_substr(buffer, 0, pos);
+        free(buffer);
+        buffer = ft_substr(buffer, pos + 1, BUFFER_SIZE - pos + 1);
+    }
+    
+    return (LINE_READ);
+}
+
+t_data   *gnl_get_data(t_data *data, int fd)
+{
+    t_data *head;
+
+    head = data;
+    while (head)
+    {
+        if (head->fd == fd)
+            return (head);
+        head = head->next;
+    }
+    head = malloc(sizeof(*head));
+    if (!head)
+        data->error = true;
+    head->fd = fd;
+  //  ft_bzero(head->buffer, BUFFER_SIZE);
+    head->buffer = NULL;
+    head->next = NULL;
+    return (head);
+}
 
 int	get_next_line(int fd, char **line)
 {
-	static char	buffer[1024][BUFFER_SIZE];
+    static t_data   *data;
+    char            **buffer_fd;
+    char            buffer[BUFFER_SIZE + 1];
+    int             res;
+    char            *tmp;
 
-	if (fd < 0 || read(fd, buffer[fd], 0) < 0 || BUFFER_SIZE <= 0 || !line)
+    data = gnl_get_data(data,fd);
+    buffer_fd = &data->buffer;
+    printf("got: %s, fd: %d\n", *buffer_fd, data->fd);
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line)
 		return (ERROR);
-	while (read(fd, buffer[fd], BUFFER_SIZE))
+    ft_bzero(buffer, BUFFER_SIZE);
+	while (true) 
 	{
-		if (read(fd, buffer[fd], 0) < 0)
-			return (ERROR);
-        if (buffer[fd][ft_strlen(buffer[fd])] == '\n')
-            return (LINE_READ);
-		ft_join(line, line, buffer[fd]);
-		ft_bzero(buffer[fd], ft_strlen(buffer[fd]));
+		res = read(fd, buffer, BUFFER_SIZE);
+        buffer[res] = '\0';
+        if (res < 0)
+            return (ERROR);
+        if (res == 0)
+            return (EOF);
+        if (*buffer_fd == NULL)
+        {
+            *buffer_fd = ft_strdup(data, buffer);
+       //     printf("null, buf: %si  ", buffer_fd);
+    printf("gotnew: %s  ", data->buffer);
+        }
+        else
+        {
+            printf("notnull");
+
+            tmp = ft_join(data, *buffer_fd, buffer);
+            free(buffer_fd);
+            *buffer_fd = tmp;
+           // ft_bzero(buffer, ft_strlen(buffer));
+        }
+         //   return (LINE_READ);
+        if (data->error == true)
+            return (ERROR);
+        if (ft_strchr(buffer, '\n'))
+            break ;
 	}
+ //   printf("buf: %c", buffer_fd[0]);
+    gnl_set_line(data, *buffer_fd, line);
+    
+   //*line = ft_strdup(&data, "epictete");	
 	return (REACHED_EOF);
 }
