@@ -6,17 +6,11 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:31 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/05/23 06:27:16 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:58:30 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-void	ft_bzero(char *s, size_t n)
-{
-	while (*s && n--)
-		*s++ = '\0';
-}
 
 int	ft_strchr(char *s, char c)
 {
@@ -64,19 +58,21 @@ char	*ft_strsdup(char *src, size_t size, int **err, int location)
 	return (dest);
 }
 
-char	*ft_strdup(t_data *data, char *src)
+char	*ft_strdup(t_gnl *data, char *src)
 {
 	size_t	i;
+	size_t	size;
 	char	*dest;
 
-	dest = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	size = ft_strlen(src);
+	dest = malloc(sizeof(char) * (size + 1));
 	if (!dest)
 	{
         data->error = true;
 		return (NULL);
 	}
 	i = 0;
-	while (i < BUFFER_SIZE)
+	while (i < size)
 	{
 		dest[i] = src[i];
 		++i;
@@ -85,18 +81,19 @@ char	*ft_strdup(t_data *data, char *src)
 	return (dest);
 }
 
-char	*ft_substr(char *s, size_t start, size_t len)
+char	*ft_substr(char *s, size_t start, size_t len, int null)
 {
 	char	*p;
 	size_t	i;
 	size_t	size;
 
+	if (s == NULL || null == true)
+		return (NULL);
 	size = 0;
 	i = start;
 	while (s[i++] && len--)
 		size++;
 	p = ft_strsdup((char *)&s[start], size, NULL, 0);
-    p[start + size] = '\0';
 	if (!p)
 		return (NULL);
 	return (p);
