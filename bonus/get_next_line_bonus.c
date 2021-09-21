@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/20 17:23:00 by root             ###   ########.fr       */
+/*   Updated: 2021/09/21 05:08:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,41 +41,36 @@ int gnl_set_line(t_gnl *fd_data, char **line, int fd)
 {
     size_t 	 pos;
 	char	*tmp;
-    char            buffer[BUFFER_SIZE + 1];
-    int             ret;
+    int		ret;
 	bool	is_null;
     
-	while (true) 
+	while (true)
 	{
-		ret = read(fd, buffer, BUFFER_SIZE);
+		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
         if (ret < 0)
             return (ERROR);
         if (ret == 0)
 			break ;
-        buffer[ret] = '\0';
-		tmp = ft_join(fd_data, fd_data->buffer, buffer);
-		free(fd_data->buffer);
-		fd_data->buffer = tmp;
+        fd_data->buffer[ret] = '\0';
+		tmp = ft_join(fd_data, fd_data->content, fd_data->buffer);
         if (fd_data->error == true)
             return (ERROR);
-        if (ft_strchr(buffer, '\n') > -1)
-            break ;
+		free(fd_data->content);
+		fd_data->content = tmp;
+		if (ft_strchr(fd_data->buffer, '\n') > NOT_FOUND)
+			break ;
 	}
     pos = 0;
-	while (fd_data->buffer && fd_data->buffer[pos] && fd_data->buffer[pos] != '\n')
-	{
-    	pos++;
-	}
-	is_null = pos + 1 > ft_strlen(fd_data->buffer);
-	*line = ft_substr(fd_data->buffer, 0, pos, is_null);
-	tmp = ft_substr(fd_data->buffer, pos + 1, BUFFER_SIZE - pos - 1, is_null);
-	free(fd_data->buffer);
-	fd_data->buffer = tmp;
-//	printf("fd rem: |%s|,  buf: |%s|\n", fd_data->buffer, buffer);
-	if (ret == REACHED_EOF && !fd_data->buffer)
-	{
+	if (fd_data->content) 
+		while (fd_data->content[pos] && fd_data->content[pos] != '\n')
+			pos++;
+	is_null = pos + 1 > ft_strlen(fd_data->content);
+	*line = ft_substr(fd_data, fd_data->content, pos, 0);
+	tmp = ft_substr(fd_data, fd_data->content + pos + 1, ft_strlen(fd_data->content) - pos - 1, is_null);
+	free(fd_data->content);
+	fd_data->content = tmp;
+	if (ret == REACHED_EOF && is_null)
 		return (REACHED_EOF);
-	}
 	else
 	    return (LINE_READ);
 }
@@ -85,6 +80,8 @@ int	get_next_line(int fd, char **line)
     static t_gnl   *data;
 	t_gnl			*fd_data;
 
+	if (BUFFER_SIZE <= 0 || !line)
+		return (ERROR);
 	fd_data = data;
 	while (fd_data && fd_data->fd != fd)
 	{
@@ -96,12 +93,10 @@ int	get_next_line(int fd, char **line)
 		if (!fd_data)
 			fd_data->error = true;
 		fd_data->fd = fd;
-		fd_data->buffer = NULL;
+		fd_data->content = NULL;
 		fd_data->error = false;
 		fd_data->next = data;
 		data = fd_data;
 	}
-	if (fd < 0 || BUFFER_SIZE <= 0 || !line)
-		return (ERROR);
     return (gnl_set_line(fd_data, line, fd));
 }
