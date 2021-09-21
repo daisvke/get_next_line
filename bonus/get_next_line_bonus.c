@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/21 06:02:22 by root             ###   ########.fr       */
+/*   Updated: 2021/09/21 06:14:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	*gnl_concatenate(t_gnl *data, char *s1, char *s2)
 	size = gnl_strlen(s1) + gnl_strlen(s2);
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
-    {
-        data->error = true;
+	{
+		data->error = true;
 		return (NULL);
-    }
+	}
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -34,25 +34,25 @@ char	*gnl_concatenate(t_gnl *data, char *s1, char *s2)
 	while (s2 && s2[i])
 		str[j++] = s2[i++];
 	str[j] = '\0';
-    return (str);
+	return (str);
 }
 
-int gnl_set_line(t_gnl *fd_data, int fd)
+int	gnl_set_line(t_gnl *fd_data, int fd)
 {
-    int		ret;
+	int		ret;
 	char	*tmp;
-    
+
 	while (gnl_get_newline_pos(fd_data->content, false) == NOT_FOUND)
 	{
 		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
-        if (ret < 0)
+		if (ret < 0)
             return (ERROR);
-        if (ret == 0)
+		if (ret == 0)
 			break ;
-        fd_data->buffer[ret] = '\0';
+		fd_data->buffer[ret] = '\0';
 		tmp = gnl_concatenate(fd_data, fd_data->content, fd_data->buffer);
-        if (fd_data->error == true)
-            return (ERROR);
+		if (fd_data->error == true)
+			return (ERROR);
 		free(fd_data->content);
 		fd_data->content = tmp;
 	}
@@ -62,7 +62,7 @@ int gnl_set_line(t_gnl *fd_data, int fd)
 int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 {
 	int		ret;
-    size_t	pos;
+	size_t	pos;
 	char	*tmp;
 	bool	is_empty;
 
@@ -84,12 +84,12 @@ int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 	if (ret == REACHED_EOF && is_empty)
 		return (REACHED_EOF);
 	else
-	    return (LINE_READ);
+		return (LINE_READ);
 }
 
 int	get_next_line(int fd, char **line)
 {
-    static t_gnl   *data;
+	static t_gnl	*data;
 	t_gnl			*fd_data;
 
 	if (BUFFER_SIZE <= 0 || !line)
@@ -110,5 +110,5 @@ int	get_next_line(int fd, char **line)
 		fd_data->next = data;
 		data = fd_data;
 	}
-    return (gnl_execute_and_return(fd_data, line, fd));
+	return (gnl_execute_and_return(fd_data, line, fd));
 }
