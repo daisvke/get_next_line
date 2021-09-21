@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/21 06:18:39 by root             ###   ########.fr       */
+/*   Updated: 2021/09/21 16:15:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*gnl_concatenate(t_gnl *data, char *s1, char *s2)
 	return (str);
 }
 
-int	gnl_set_line(t_gnl *fd_data, int fd)
+int	gnl_fill_line(t_gnl *fd_data, int fd)
 {
 	int		ret;
 	char	*tmp;
@@ -66,7 +66,7 @@ int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 	char	*tmp;
 	bool	is_empty;
 
-	ret = gnl_set_line(fd_data, fd);
+	ret = gnl_fill_line(fd_data, fd);
 	if (ret == ERROR)
 		return (ERROR);
 	if (fd_data->content)
@@ -96,14 +96,12 @@ int	get_next_line(int fd, char **line)
 		return (ERROR);
 	fd_data = data;
 	while (fd_data && fd_data->fd != fd)
-	{
 		fd_data = fd_data->next;
-	}
 	if (!fd_data)
 	{
 		fd_data = malloc(sizeof(t_gnl));
 		if (!fd_data)
-			fd_data->error = true;
+			return (ERROR);
 		fd_data->fd = fd;
 		fd_data->content = NULL;
 		fd_data->error = false;
