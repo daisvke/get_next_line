@@ -36,8 +36,7 @@ typedef struct s_gnl
 }					t_gnl;
 
 int		get_next_line(int fd, char **line);
-int		gnl_get_newline_pos(char *str, bool increment);
-size_t	gnl_strlen(char *s);
-char	*gnl_substr(t_gnl *data, char *s, size_t len, int is_empty);
+int		gnl_get_char_pos(char *str, char c, bool increment);
+char	*gnl_substr(t_gnl *data, char *str, size_t size, int is_empty);
 
 #endif

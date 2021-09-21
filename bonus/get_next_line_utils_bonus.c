@@ -12,25 +12,14 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	gnl_strlen(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (s)
-		while (s[i])
-			++i;
-	return (i);
-}
-
-int	gnl_get_newline_pos(char *str, bool increment)
+int	gnl_get_char_pos(char *str, char c, bool increment)
 {
 	size_t	i;
 
 	i = 0;
 	while (str && str[i])
 	{
-		if (str[i] == '\n')
+		if (str[i] == c)
 			return (i);
 		++i;
 	}
@@ -40,16 +29,18 @@ int	gnl_get_newline_pos(char *str, bool increment)
 		return (NOT_FOUND);
 }
 
-char	*gnl_substr(t_gnl *data, char *str, size_t len, int is_empty)
+char	*gnl_substr(t_gnl *data, char *str, size_t size, int is_empty)
 {
 	char	*ptr;
 	size_t	i;
-	size_t	size;
+//	size_t	size;
 
-	size = 0;
+//	size = 0;
 	i = 0;
-	while (str && is_empty == false && str[i++] && len--)
-		++size;
+//	while (str && is_empty == false && str[i++] && len--)
+//		++size;
+    if (is_empty)
+        size = 0;
 	ptr = malloc(sizeof(char) * (size + 1));
 	if (!ptr)
 	{

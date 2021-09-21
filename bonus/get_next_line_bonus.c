@@ -19,7 +19,7 @@ char	*gnl_concatenate(t_gnl *data, char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	size = gnl_strlen(s1) + gnl_strlen(s2);
+	size = gnl_get_char_pos(s1, '\0', true) + gnl_get_char_pos(s2, '\0', true);
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
 	{
@@ -42,7 +42,7 @@ int	gnl_fill_line(t_gnl *fd_data, int fd)
 	int		ret;
 	char	*tmp;
 
-	while (gnl_get_newline_pos(fd_data->content, false) == NOT_FOUND)
+	while (gnl_get_char_pos(fd_data->content, '\n', false) == NOT_FOUND)
 	{
 		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
 		if (ret < 0)
@@ -69,14 +69,15 @@ int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
 	ret = gnl_fill_line(fd_data, fd);
 	if (ret == ERROR)
 		return (ERROR);
+    pos = 0;
 	if (fd_data->content)
-		pos = gnl_get_newline_pos(fd_data->content, true);
-	is_empty = pos + 1 > gnl_strlen(fd_data->content);
+		pos = gnl_get_char_pos(fd_data->content, '\n', true);
+	is_empty = pos + 1 > gnl_get_char_pos(fd_data->content, '\0', true);
 	*line = gnl_substr(fd_data, fd_data->content, pos, 0);
 	if (fd_data->error == true)
 		return (ERROR);
 	tmp = gnl_substr(fd_data, fd_data->content + pos + 1, \
-		gnl_strlen(fd_data->content) - pos - 1, is_empty);
+		gnl_get_char_pos(fd_data->content, '\0', true) - pos - 1, is_empty);
 	if (fd_data->error == true)
 		return (ERROR);
 	free(fd_data->content);
