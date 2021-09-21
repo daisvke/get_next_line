@@ -6,20 +6,20 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/21 05:08:04 by root             ###   ########.fr       */
+/*   Updated: 2021/09/21 06:02:22 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_join(t_gnl *data, char *s1, char *s2)
+char	*gnl_concatenate(t_gnl *data, char *s1, char *s2)
 {
-	size_t	i;
-	size_t	j;
 	size_t	size;
 	char	*str;
+	size_t	i;
+	size_t	j;
 
-	size = ft_strlen(s1) + ft_strlen(s2);
+	size = gnl_strlen(s1) + gnl_strlen(s2);
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
     {
@@ -37,14 +37,12 @@ char	*ft_join(t_gnl *data, char *s1, char *s2)
     return (str);
 }
 
-int gnl_set_line(t_gnl *fd_data, char **line, int fd)
+int gnl_set_line(t_gnl *fd_data, int fd)
 {
-    size_t 	 pos;
-	char	*tmp;
     int		ret;
-	bool	is_null;
+	char	*tmp;
     
-	while (true)
+	while (gnl_get_newline_pos(fd_data->content, false) == NOT_FOUND)
 	{
 		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
         if (ret < 0)
@@ -52,24 +50,38 @@ int gnl_set_line(t_gnl *fd_data, char **line, int fd)
         if (ret == 0)
 			break ;
         fd_data->buffer[ret] = '\0';
-		tmp = ft_join(fd_data, fd_data->content, fd_data->buffer);
+		tmp = gnl_concatenate(fd_data, fd_data->content, fd_data->buffer);
         if (fd_data->error == true)
             return (ERROR);
 		free(fd_data->content);
 		fd_data->content = tmp;
-		if (ft_strchr(fd_data->buffer, '\n') > NOT_FOUND)
-			break ;
 	}
-    pos = 0;
+	return (ret);
+}
+
+int	gnl_execute_and_return(t_gnl *fd_data, char **line, int fd)
+{
+	int		ret;
+    size_t	pos;
+	char	*tmp;
+	bool	is_empty;
+
+	ret = gnl_set_line(fd_data, fd);
+	if (ret == ERROR)
+		return (ERROR);
 	if (fd_data->content) 
-		while (fd_data->content[pos] && fd_data->content[pos] != '\n')
-			pos++;
-	is_null = pos + 1 > ft_strlen(fd_data->content);
-	*line = ft_substr(fd_data, fd_data->content, pos, 0);
-	tmp = ft_substr(fd_data, fd_data->content + pos + 1, ft_strlen(fd_data->content) - pos - 1, is_null);
+		pos = gnl_get_newline_pos(fd_data->content, true);
+	is_empty = pos + 1 > gnl_strlen(fd_data->content);
+	*line = gnl_substr(fd_data, fd_data->content, pos, 0);
+	if (fd_data->error == true)
+		return (ERROR);
+	tmp = gnl_substr(fd_data, fd_data->content + pos + 1, \
+		gnl_strlen(fd_data->content) - pos - 1, is_empty);
+	if (fd_data->error == true)
+		return (ERROR);
 	free(fd_data->content);
 	fd_data->content = tmp;
-	if (ret == REACHED_EOF && is_null)
+	if (ret == REACHED_EOF && is_empty)
 		return (REACHED_EOF);
 	else
 	    return (LINE_READ);
@@ -98,5 +110,5 @@ int	get_next_line(int fd, char **line)
 		fd_data->next = data;
 		data = fd_data;
 	}
-    return (gnl_set_line(fd_data, line, fd));
+    return (gnl_execute_and_return(fd_data, line, fd));
 }
