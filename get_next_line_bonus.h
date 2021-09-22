@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/22 01:18:36 by root             ###   ########.fr       */
+/*   Updated: 2021/09/22 02:46:39 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # endif
 
 # define NOT_FOUND		0
+# define OFF			-1
+
+/*
+** return values
+*/
 # define ERROR 			-1
 # define REACHED_EOF 	0
 # define LINE_READ		1
@@ -35,6 +40,5 @@ typedef struct s_gnl
 }					t_gnl;
 
 int		get_next_line(int fd, char **line);
-size_t	gnl_get_char_pos(char *str, char c, bool increment);
 
 #endif
