@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:38 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/21 06:20:48 by root             ###   ########.fr       */
+/*   Updated: 2021/09/22 01:18:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ typedef struct s_gnl
 	char			*content;
 	char			buffer[BUFFER_SIZE + 1];
 	struct s_gnl	*next;
-	bool			error;
 }					t_gnl;
 
 int		get_next_line(int fd, char **line);
-int		gnl_get_char_pos(char *str, char c, bool increment);
-char	*gnl_substr(t_gnl *data, char *str, size_t size, int is_empty);
+size_t	gnl_get_char_pos(char *str, char c, bool increment);
 
 #endif
