@@ -1,0 +1,2 @@
+sudo gcc -g -Wall -Wextra -D BUFFER_SIZE=2  bonus/*.c bonus/*.h main.c -fsanitize=address
+

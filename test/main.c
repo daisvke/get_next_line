@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <fcntl.h>
-#include "get_next_line.h"
+#include "../get_next_line.h"
 
 void	ft_print_line(int fd, int *ret, int i)
 {
@@ -29,14 +29,14 @@ int	main(void)
 	int	fd9;
 	int	fd10;
 
-	fd = open("t", O_RDONLY);
-	fd2 = open("t2", O_RDONLY);
-	fd3 = open("t3", O_RDONLY);
-	fd5 = open("t5", O_RDONLY);
-	fd7 = open("t7", O_RDONLY);
-	fd8 = open("t8", O_RDONLY);
-	fd9 = open("t9", O_RDONLY);
-	fd10 = open("t10", O_RDONLY);
+	fd = open("test/t", O_RDONLY);
+	fd2 = open("test/t2", O_RDONLY);
+	fd3 = open("test/t3", O_RDONLY);
+	fd5 = open("test/t5", O_RDONLY);
+	fd7 = open("test/t7", O_RDONLY);
+	fd8 = open("test/t8", O_RDONLY);
+	fd9 = open("test/t9", O_RDONLY);
+	fd10 = open("test/t10", O_RDONLY);
 	i = 0;
 	ret = 1;
 	while (ret > 0)
