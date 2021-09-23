@@ -6,7 +6,7 @@
 /*   By: dtanigaw <dtanigaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 04:07:23 by dtanigaw          #+#    #+#             */
-/*   Updated: 2021/09/23 04:19:33 by dtanigaw         ###   ########.fr       */
+/*   Updated: 2021/09/23 17:47:00 by dtanigaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,35 +56,35 @@ char	*gnl_concatenate(char *s1, char *s2, int len, bool is_empty)
 
 int	gnl_get_line(t_gnl *fd_data, int fd)
 {
-	int		ret;
+	int		res;
 	char	*tmp;
 
 	while (gnl_get_char_index(fd_data->content, '\n', false) == NOT_FOUND)
 	{
-		ret = read(fd, fd_data->buffer, BUFFER_SIZE);
-		if (ret < 0)
+		res = read(fd, fd_data->buffer, BUFFER_SIZE);
+		if (res < 0)
 			return (ERROR);
-		if (ret == 0)
+		if (res == 0)
 			break ;
-		fd_data->buffer[ret] = '\0';
+		fd_data->buffer[res] = '\0';
 		tmp = gnl_concatenate(fd_data->content, fd_data->buffer, OFF, false);
 		if (!tmp)
 			return (ERROR);
 		free(fd_data->content);
 		fd_data->content = tmp;
 	}
-	return (ret);
+	return (res);
 }
 
 int	gnl_run_and_return(t_gnl *fd_data, char **line, int fd)
 {
-	int		ret;
+	int		res;
 	size_t	index;
 	char	*tmp;
 	bool	is_empty;
 
-	ret = gnl_get_line(fd_data, fd);
-	if (ret == ERROR)
+	res = gnl_get_line(fd_data, fd);
+	if (res == ERROR)
 		return (ERROR);
 	index = 0;
 	if (fd_data->content)
@@ -99,7 +99,7 @@ int	gnl_run_and_return(t_gnl *fd_data, char **line, int fd)
 		return (ERROR);
 	free(fd_data->content);
 	fd_data->content = tmp;
-	if (ret == REACHED_EOF && is_empty)
+	if (res == REACHED_EOF && is_empty)
 		return (REACHED_EOF);
 	else
 		return (LINE_READ);
