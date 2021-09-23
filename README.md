@@ -30,7 +30,6 @@ This was originally a 42 school project.<br />
 
 ## Bonus part
 
-* The files are the exact same ones as in the mandatory part. We differentiated them only to get propely graded.
 * The function is able to manage multiple file descriptors. For instance, if the file descriptors 3, 4 and 5 are accessible for reading, then we can call get_next_line once on 3, once on 4, once again on 3 then once on 5 etc., without losing the reading thread on each of the descriptors.
 
 ## Validation
